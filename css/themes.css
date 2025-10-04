@@ -1,0 +1,46 @@
+/* Theme System for Cyberwise Game */
+
+:root {
+    /* Default Theme - Indigo */
+    --theme-color: #4f46e5;
+    --theme-color-light: #6366f1;
+    --theme-shadow: rgba(79, 70, 229, 0.5);
+    --theme-shadow-light: rgba(99, 102, 241, 0.9);
+    --theme-transparent: rgba(79, 70, 229, 0.3);
+}
+
+/* Matrix Green Theme */
+.theme-matrix {
+    --theme-color: #16a34a;
+    --theme-color-light: #22c55e;
+    --theme-shadow: rgba(22, 163, 74, 0.5);
+    --theme-shadow-light: rgba(34, 197, 94, 0.9);
+    --theme-transparent: rgba(22, 163, 74, 0.3);
+}
+
+/* Danger Red Theme */
+.theme-danger {
+    --theme-color: #dc2626;
+    --theme-color-light: #ef4444;
+    --theme-shadow: rgba(220, 38, 38, 0.5);
+    --theme-shadow-light: rgba(239, 68, 68, 0.9);
+    --theme-transparent: rgba(220, 38, 38, 0.3);
+}
+
+/* Cyber Purple Theme */
+.theme-cyber {
+    --theme-color: #7c3aed;
+    --theme-color-light: #8b5cf6;
+    --theme-shadow: rgba(124, 58, 237, 0.5);
+    --theme-shadow-light: rgba(139, 92, 246, 0.9);
+    --theme-transparent: rgba(124, 58, 237, 0.3);
+}
+
+/* Golden Agent Theme */
+.theme-gold {
+    --theme-color: #d97706;
+    --theme-color-light: #f59e0b;
+    --theme-shadow: rgba(217, 119, 6, 0.5);
+    --theme-shadow-light: rgba(245, 158, 11, 0.9);
+    --theme-transparent: rgba(217, 119, 6, 0.3);
+}
