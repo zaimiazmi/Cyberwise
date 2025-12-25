@@ -5,7 +5,9 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #0a0a1a;
     color: #e0e0e0;
-    overflow: hidden;
+    /* Allow vertical scrolling on small devices while preventing horizontal overflow */
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .font-orbitron {
@@ -257,4 +259,51 @@ body {
 .pill.active {
   background: var(--theme-color, #4f46e5);
   color: #111;
+}
+
+/* ===== Responsive Adjustments ===== */
+/* Make media and containers fluid */
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Small screens: compact navbar and controls */
+@media (max-width: 640px) {
+    .pillbar {
+        gap: 8px;
+        padding: 8px 12px;
+        max-width: calc(100vw - 16px);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .pill {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    /* Buttons: slightly smaller on mobile */
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+
+    /* HUD items: tighter spacing */
+    .hud-item {
+        padding: 0.35rem 0.5rem;
+    }
+
+    /* Intro heading and text scale gracefully */
+    #intro-container h1 {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+    #intro-container .text-lg {
+        font-size: clamp(1rem, 3.8vw, 1.125rem);
+    }
+
+    /* Game header title scales down */
+    #game-header h1 {
+        font-size: clamp(1.25rem, 5vw, 1.75rem);
+    }
 }
