@@ -1,5 +1,95 @@
 // Main Game Logic for Cyberwise
 
+// Website Access Control
+const websiteAccess = {
+    isClosed: false,
+    
+    init() {
+        // Check if website is closed
+        this.isClosed = utils.storage.load('websiteClosed') === true;
+        
+        if (this.isClosed) {
+            this.showClosedScreen();
+        } else {
+            this.setupMainContent();
+        }
+    },
+    
+    setupMainContent() {
+        // Initialize the main game
+        game.init();
+    },
+    
+    showClosedScreen() {
+        // Hide all regular content
+        document.getElementById('top-nav')?.classList.add('hidden');
+        document.getElementById('intro-container')?.classList.add('hidden');
+        document.getElementById('profile-management')?.classList.add('hidden');
+        document.getElementById('game-container')?.classList.add('hidden');
+        
+        // Show closed screen
+        const closedScreen = document.getElementById('access-closed-screen');
+        closedScreen.classList.remove('hidden');
+        
+        // Add unlock button for admin (only show with keyboard shortcut)
+        const openBtn = document.getElementById('open-website-btn');
+        
+        // Listen for admin unlock: Press 'U' + 'N' + 'L' + 'O' + 'C' + 'K' in sequence
+        let unlockSequence = '';
+        document.addEventListener('keydown', (e) => {
+            unlockSequence += e.key.toUpperCase();
+            if (unlockSequence.includes('UNLOCK')) {
+                openBtn.classList.remove('hidden');
+            }
+        });
+        
+        openBtn.addEventListener('click', () => this.toggleWebsite());
+    },
+    
+    closeWebsite() {
+        this.isClosed = true;
+        utils.storage.save('websiteClosed', true);
+        
+        // Show closing message
+        const toast = document.getElementById('toast');
+        toast.textContent = '🔐 Website is now CLOSED';
+        toast.classList.remove('hidden');
+        toast.classList.remove('bg-green-500');
+        toast.classList.add('bg-red-500');
+        
+        // Reload page after a delay
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
+    },
+    
+    openWebsite() {
+        this.isClosed = false;
+        utils.storage.save('websiteClosed', false);
+        
+        // Show reopening message
+        document.getElementById('access-closed-screen').classList.add('hidden');
+        document.getElementById('top-nav')?.classList.remove('hidden');
+        document.getElementById('intro-container')?.classList.remove('hidden');
+        
+        // Show toast notification
+        const toast = document.getElementById('toast');
+        toast.textContent = '✓ Website is now OPEN';
+        toast.classList.remove('hidden');
+        toast.classList.remove('bg-red-500');
+        toast.classList.add('bg-green-500');
+        setTimeout(() => toast.classList.add('hidden'), 3000);
+    },
+    
+    toggleWebsite() {
+        if (this.isClosed) {
+            this.openWebsite();
+        } else {
+            this.closeWebsite();
+        }
+    }
+};
+
 // Game state and core systems
 const game = {
     // Initialization
@@ -15,6 +105,19 @@ const game = {
         document.getElementById('manage-profiles-btn').addEventListener('click', () => ui.renderProfileManagement());
         document.getElementById('create-profile-btn').addEventListener('click', () => ui.showCreateProfileDialog());
         document.getElementById('back-to-intro-btn').addEventListener('click', () => ui.returnToIntro());
+        
+        // Setup close website button
+        const closeWebsiteBtn = document.getElementById('close-website-btn');
+        if (closeWebsiteBtn) {
+            closeWebsiteBtn.addEventListener('click', () => {
+                utils.showModal(
+                    'Close Website?', 
+                    'Are you sure you want to close the website? Others will not be able to access it.<br><br><strong>Press "Close" again to confirm.</strong>', 
+                    'Close',
+                    () => websiteAccess.closeWebsite()
+                );
+            });
+        }
         
         // Setup changelog button
         const changelogBtn = document.getElementById('changelog-btn');
@@ -739,5 +842,5 @@ const game = {
 
 // Initialize game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    game.init();
+    websiteAccess.init();
 });
